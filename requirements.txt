@@ -1,0 +1,9 @@
+beautifulsoup4==4.9.0
+certifi==2020.4.5.1
+chardet==3.0.4
+cloudscraper==1.2.33
+idna==2.9
+requests==2.23.0
+requests-toolbelt==0.9.1
+soupsieve==2.0
+urllib3==1.25.9
