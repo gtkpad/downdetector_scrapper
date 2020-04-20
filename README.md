@@ -18,6 +18,6 @@ pip3 install requirements.txt
 
 ### Usage
 ```
-./main.py {site_name}
-./main.py whatsapp
+./downdetector.py {site_name}
+./downdetector.py whatsapp
 ```
