@@ -21,3 +21,17 @@ pip3 install requirements.txt
 ./downdetector.py {site_name}
 ./downdetector.py whatsapp
 ```
+
+# Discovery
+
+### downdetectordiscoverylist.list
+```
+0 DISABLE
+1 ENABLE
+
+0;caixa;Caixa Econômica Federal
+
+1;caixa;Caixa Econômica Federal
+```
+
+
