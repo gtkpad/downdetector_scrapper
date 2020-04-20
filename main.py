@@ -12,11 +12,12 @@ from bs4 import BeautifulSoup
 
 
 def parse_result(status_text):
+    status_text = status_text.strip()
     if status_text == 'success':
         status_number = 1
-    if status_text == 'warning':
+    elif status_text == 'warning':
         status_number = 2
-    if status_text == 'danger':
+    elif status_text == 'danger':
         status_number = 3
     else:
         status_number = 0
@@ -40,7 +41,7 @@ bs = BeautifulSoup(response.text, 'html.parser')
 dataParse = bs.find("div", {"class": "entry-title"})
 status = dataParse.attrs["class"][2].split('-')[1]
 
-if status not in ['success', 'warning', 'danger']:
+if status in ['success', 'warning', 'danger']:
     parse_result(status)
 else:
     failover = re.compile(".*status: '(.*)',.*", re.MULTILINE)
