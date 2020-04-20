@@ -11,6 +11,11 @@ cloudscraper
 pip3 install beautifulsoup4
 pip3 install cloudscraper</pre>
 
+Caso já tenha o pip instalado e queira instalar as dependencias rode:
+```
+pip3 install requirements.txt
+```
+
 ### Usage
 ```
 ./main.py {site_name}
