@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>4.4</version>
+    <date>2020-04-20T23:38:05Z</date>
+    <groups>
+        <group>
+            <name>DownDetector</name>
+        </group>
+    </groups>
+    <hosts>
+        <host>
+            <host>DownDetector</host>
+            <name>DownDetector</name>
+            <templates>
+                <template>
+                    <name>RR DownDetector Discovery</name>
+                </template>
+            </templates>
+            <groups>
+                <group>
+                    <name>DownDetector</name>
+                </group>
+            </groups>
+            <interfaces>
+                <interface>
+                    <interface_ref>if1</interface_ref>
+                </interface>
+            </interfaces>
+            <inventory_mode>DISABLED</inventory_mode>
+        </host>
+    </hosts>
+</zabbix_export>

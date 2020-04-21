@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>4.4</version>
+    <date>2020-04-20T23:37:36Z</date>
+    <groups>
+        <group>
+            <name>Templates RR</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>RR DownDetector Discovery</template>
+            <name>RR DownDetector Discovery</name>
+            <groups>
+                <group>
+                    <name>Templates RR</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Site</name>
+                </application>
+            </applications>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>Descoberta Site</name>
+                    <type>EXTERNAL</type>
+                    <key>downdetectorDiscovery.py</key>
+                    <delay>5m</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>{#SITE_NOME}</name>
+                            <type>EXTERNAL</type>
+                            <key>downdetector.py[{#SITE_ID}]</key>
+                            <delay>5m</delay>
+                            <history>7d</history>
+                            <trends>30d</trends>
+                            <applications>
+                                <application>
+                                    <name>Site</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>Status Downdetector</name>
+                            </valuemap>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{avg(30m)}=0</expression>
+                                    <name>Não esta sendo possível verificar {#SITE_NOME}</name>
+                                    <priority>INFO</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{avg(20m)}=2</expression>
+                                    <name>{#SITE_NOME} está apresentando intermitências</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{avg(10m)}=3</expression>
+                                    <name>{#SITE_NOME} está instável</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                    <graph_prototypes>
+                        <graph_prototype>
+                            <name>DownDetector {#SITE_NOME}</name>
+                            <yaxismax>4.0000</yaxismax>
+                            <ymax_type_1>FIXED</ymax_type_1>
+                            <graph_items>
+                                <graph_item>
+                                    <drawtype>GRADIENT_LINE</drawtype>
+                                    <color>FF0000</color>
+                                    <yaxisside>RIGHT</yaxisside>
+                                    <item>
+                                        <host>RR DownDetector Discovery</host>
+                                        <key>downdetector.py[{#SITE_ID}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                    </graph_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+    <value_maps>
+        <value_map>
+            <name>Status Downdetector</name>
+            <mappings>
+                <mapping>
+                    <value>0</value>
+                    <newvalue>Error</newvalue>
+                </mapping>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>Estável</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2</value>
+                    <newvalue>Intermitências</newvalue>
+                </mapping>
+                <mapping>
+                    <value>3</value>
+                    <newvalue>Instável</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+    </value_maps>
+</zabbix_export>
