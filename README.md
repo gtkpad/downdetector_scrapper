@@ -5,6 +5,7 @@
 Python 3
 beautifulsoup4
 cloudscraper
+openssl 1.1.1
 ```
 
 ### Uso
