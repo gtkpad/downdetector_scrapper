@@ -1,15 +1,15 @@
 # downdetector_zbx_grafana
 
-### Requirements
+### Requerimentos
 ```
 Python 3
 beautifulsoup4
 cloudscraper
 ```
 
-### Usage
+### Uso
 ```
-./downdetector.py {site_name}
+./downdetector.py {nome site}
 ./downdetector.py whatsapp
 
 ```
