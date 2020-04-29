@@ -2,7 +2,8 @@
 import os
 import sys
 import json
-FILE = "/usr/lib/zabbix/externalscripts/downdetectorlist.list"
+# FILE = "/usr/lib/zabbix/externalscripts/downdetectorlist.list"
+FILE = "downdetectorlist.list"
 
 if not os.path.isfile(FILE):
     print("File not found")
