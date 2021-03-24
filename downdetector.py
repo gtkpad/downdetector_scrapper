@@ -54,11 +54,11 @@ else:
     import cloudscraper
     craw = "cloudscraper"
 
-PARAMS = [
-    'Relatórios de usuários indicam que não há problemas',
-    'Relatórios de usuários indicam potenciais problemas',
-    'Relatórios de usuários indicam problemas'
-]
+PARAMS = {
+    'Relatórios de usuários indicam que não há problemas': 'success',
+    'Relatórios de usuários indicam potenciais problemas': 'warning',
+    'Relatórios de usuários indicam problemas': 'danger'
+}
 
 def request(dd_site):
     url = "https://downdetector.com.br/fora-do-ar/{}/".format(dd_site)
@@ -74,17 +74,16 @@ def request(dd_site):
 
 def parse_result(status_text):
     status_text = status_text.strip()
-    if re.compile(r"{}.*".format(PARAMS[0])).match(status_text):
+    if status_text == 'success':
         status_number = 1
-    elif re.compile(r"{}.*".format(PARAMS[1])).match(status_text):
+    elif status_text == 'warning':
         status_number = 2
-    elif re.compile(r"{}.*".format(PARAMS[2])).match(status_text):
+    elif status_text == 'danger':
         status_number = 3
     else:
         status_number = 0
     print(status_number)
     exit()
-
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
@@ -98,8 +97,20 @@ if __name__ == '__main__':
         print(0)
         exit()
 
-    bs = BeautifulSoup(response.text, 'html.parser')
-    dataParse = bs.find("div", {"class": "entry-title"})
-    status = dataParse.text.strip()
-
-    parse_result(status)
+    try:
+        bs = BeautifulSoup(response.text, 'html.parser')
+        dataParse = bs.find("div", {"class": "entry-title"})
+        status = dataParse.text.strip()
+        result = None
+        if not status:
+            raise ValueError('')
+        for param in PARAMS:
+            if re.compile(r"{}.*".format(param)).match(status):
+                result = PARAMS[param]
+        if not result:
+            raise ValueError('')
+        parse_result(result)
+    except Exception as err:
+        failover = re.compile(".*status: '(.*)',.*", re.MULTILINE)
+        failover_status = failover.findall(response.text).pop()
+        parse_result(failover_status)
