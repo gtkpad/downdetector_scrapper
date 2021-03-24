@@ -54,6 +54,11 @@ else:
     import cloudscraper
     craw = "cloudscraper"
 
+PARAMS = [
+    'Relatórios de usuários indicam que não há problemas',
+    'Relatórios de usuários indicam potenciais problemas',
+    'Relatórios de usuários indicam problemas'
+]
 
 def request(dd_site):
     url = "https://downdetector.com.br/fora-do-ar/{}/".format(dd_site)
@@ -69,11 +74,11 @@ def request(dd_site):
 
 def parse_result(status_text):
     status_text = status_text.strip()
-    if status_text == 'success':
+    if re.compile(r"{}.*".format(PARAMS[0])).match(status_text):
         status_number = 1
-    elif status_text == 'warning':
+    elif re.compile(r"{}.*".format(PARAMS[1])).match(status_text):
         status_number = 2
-    elif status_text == 'danger':
+    elif re.compile(r"{}.*".format(PARAMS[2])).match(status_text):
         status_number = 3
     else:
         status_number = 0
@@ -81,24 +86,20 @@ def parse_result(status_text):
     exit()
 
 
-if len(sys.argv) < 2:
-    print("Informe o site que gostaria de verificar")
-    sys.exit(1)
-site = sys.argv[1]
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print("Informe o site que gostaria de verificar")
+        sys.exit(1)
+    site = sys.argv[1]
 
-response = request(site)
+    response = request(site)
 
-if response.status_code != 200:
-    print(0)
-    exit()
+    if response.status_code != 200:
+        print(0)
+        exit()
 
-bs = BeautifulSoup(response.text, 'html.parser')
-dataParse = bs.find("div", {"class": "entry-title"})
-status = dataParse.attrs["class"][2].split('-')[1]
+    bs = BeautifulSoup(response.text, 'html.parser')
+    dataParse = bs.find("div", {"class": "entry-title"})
+    status = dataParse.text.strip()
 
-if status in ['success', 'warning', 'danger']:
     parse_result(status)
-else:
-    failover = re.compile(".*status: '(.*)',.*", re.MULTILINE)
-    failover_status = failover.findall(response.text).pop()
-    parse_result(failover_status)
